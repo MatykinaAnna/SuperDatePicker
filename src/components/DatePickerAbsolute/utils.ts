@@ -25,6 +25,30 @@ const sundayWeekToMondayWeekDayMap: Record<number, number> = {
   6: 5,
 };
 
+export const getArrayTimes = (startH: 0, endH: 12, startM: 0, endM: 30, stepM: 30) => {
+  let startDate = new Date()
+  let endDate = new Date()
+
+  startDate.setHours(startH)
+  startDate.setMinutes(startM)
+  startDate.setSeconds(0)
+
+  endDate.setHours(endH)
+  endDate.setMinutes(endM)
+  endDate.setSeconds(0)
+
+  while (startDate.getTime() < endDate.getTime()){
+    let item = {
+      str: `${addLeadingZeroIfNeeded(startDate.getHours())}:${addLeadingZeroIfNeeded(startDate.getMinutes())}`,
+      h: startDate.getHours(),
+      m: startDate.getMinutes()
+    }
+    console.log(item)
+    startDate.setMinutes(startDate.getMinutes() + 30);
+  }
+
+}
+
 export interface DateCellItem {
   date: number;
   month: number;
@@ -126,7 +150,9 @@ export const getInputValueFromDate = (value: Date) => {
   const month = addLeadingZeroIfNeeded(value.getMonth() + 1);
   const year = value.getFullYear();
 
-  return `${date}-${month}-${year}`;
+  const hours = addLeadingZeroIfNeeded(value.getHours())
+  const minutes = addLeadingZeroIfNeeded(value.getMinutes())
+  return `${date}-${month}-${year} ${hours}:${minutes}`;
 };
 
 export const getDateFromInputValue = (inputValue: string) => {

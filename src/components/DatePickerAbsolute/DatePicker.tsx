@@ -18,8 +18,10 @@ import {
   isInRange,
   isToday,
   months,
+  getArrayTimes
 } from './utils';
-import { useLatest } from '../hooks';
+import { useLatest } from '../../hooks';
+import styles from './DatePicker.module.scss'
 
 export interface DatePickerProps {
   value: Date;
@@ -28,10 +30,14 @@ export interface DatePickerProps {
   max?: Date;
 }
 
-export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
+export function DatePickerAbsolute({ value, onChange, min, max }: DatePickerProps) {
   const [showPopup, setShowPopup] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(()=>{
+    getArrayTimes(0, 12, 0, 30, 30)
+  }, [])
 
   useLayoutEffect(() => {
     setInputValue(getInputValueFromDate(value));
@@ -131,8 +137,7 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
         onChange={onInputValueChange}
         type="text"
         onClick={onInputClick}
-        onKeyDown={onKeyDown}
-      />
+        onKeyDown={onKeyDown} />
 
       {showPopup && (
         <div className="DatePicker__popup" data-testid="date-picker-popup">
@@ -141,13 +146,12 @@ export const DatePicker = ({ value, onChange, min, max }: DatePickerProps) => {
             onChange={handleChange}
             min={min}
             max={max}
-            inputValueDate={inputValueDate}
-          />
+            inputValueDate={inputValueDate} />
         </div>
       )}
     </div>
   );
-};
+}
 
 interface DatePickerPopupContentProps {
   selectedValue: Date;
@@ -175,7 +179,8 @@ const DatePickerPopupContent = ({
 
     setPanelMonth(inputValueDate.getMonth());
     setPanelYear(inputValueDate.getFullYear());
-  }, [inputValueDate]);
+  }, []);
+
 
   const [year, month, day] = useMemo(() => {
     const currentYear = selectedValue.getFullYear();
@@ -186,6 +191,7 @@ const DatePickerPopupContent = ({
   }, [selectedValue]);
 
   const dateCells = useMemo(() => {
+
     const daysInAMonth = getDaysAmountInAMonth(panelYear, panelMonth);
 
     const currentMonthDays = getCurrentMothDays(
@@ -230,18 +236,18 @@ const DatePickerPopupContent = ({
   };
 
   return (
-    <div className="CalendarPanel">
-      <div className="CalendarPanel__header">
+    <div className={styles.CalendarPanel}>
+      <div className={styles.CalendarPanel__header}>
         <div
-          className="CalendarPanel__date"
-          data-testid="date-picker-popup-month"
+          className={styles.CalendarPanel__date}
+          data-testid="datePickerPopupMonth"
         >
           {months[panelMonth]} {panelYear}
         </div>
-        <div className="CalendarPanel__buttons">
-          <div className="CalendarPanel__buttons-left">
+        <div className={styles.CalendarPanel__buttons}>
+          <div className={styles.CalendarPanel__buttonsLeft}>
             <button
-              data-testid="date-picker-popup-prev-year"
+              data-testid="datePickerPopupPrevYear"
               onClick={prevYear}
             >
               Prev Year
@@ -253,7 +259,7 @@ const DatePickerPopupContent = ({
               Prev Month
             </button>
           </div>
-          <div className="CalendarPanel__buttons-right">
+          <div className={styles.CalendarPanel__buttonsRight}>
             <button
               data-testid="date-picker-popup-next-month"
               onClick={nextMonth}
@@ -269,9 +275,9 @@ const DatePickerPopupContent = ({
           </div>
         </div>
       </div>
-      <div className="CalendarPanel__content">
+      <div className={styles.CalendarPanel__content}>
         {daysOfTheWeek.map(weekDay => (
-          <div key={weekDay} className="CalendarPanelItem">
+          <div key={weekDay} className={styles.CalendarPanelItem}>
             {weekDay}
           </div>
         ))}
@@ -290,17 +296,17 @@ const DatePickerPopupContent = ({
           return (
             <div
               className={clsx(
-                'CalendarPanelItem',
-                isSelectedDate && 'CalendarPanelItem--selected',
-                isTodayDate && 'CalendarPanelItem--today',
-                isNotCurrent && 'CalendarPanelItem--not-current',
-                !isDateInRange && 'CalendarPanelItem--not-in-range'
+                styles.CalendarPanelItem,
+                isSelectedDate && styles.CalendarPanelItemSelected,
+                isTodayDate && styles.CalendarPanelItemToday,
+                isNotCurrent && styles.CalendarPanelItemNotCurrent,
+                !isDateInRange && styles.CalendarPanelItemNotInRange
               )}
-              key={`${cell.date}-${cell.month}-${cell.year}`}
+              key={`${cell.date}-${cell.month}-${cell.year}}`}
               onClick={() => isDateInRange && onDateSelect(cell)}
               data-testid="date-picker-popup-cell"
             >
-              <div className="CalendarPanelItem__date">{cell.date}</div>
+              <div className={styles.CalendarPanelItem__date}>{cell.date}</div>
             </div>
           );
         })}
