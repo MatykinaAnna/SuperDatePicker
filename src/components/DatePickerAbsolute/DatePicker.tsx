@@ -146,7 +146,10 @@ export function DatePickerAbsolute({ value, onChange, min, max }: DatePickerProp
         <div>
           <button onClick={()=>{setTypePopup(0)}}>absolute</button>
           <button onClick={()=>{setTypePopup(1)}}>relative</button>
-          <button onClick={()=>{setTypePopup(2)}}>now</button>  
+          <button onClick={()=>{
+                            handleChange(new Date())
+                            setTypePopup(2)
+                          }}>now</button>  
         </div>  
       
       }
