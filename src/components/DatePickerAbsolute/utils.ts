@@ -37,15 +37,19 @@ export const getArrayTimes = (startH: 0, endH: 12, startM: 0, endM: 30, stepM: 3
   endDate.setMinutes(endM)
   endDate.setSeconds(0)
 
+  let rezult = []
+
   while (startDate.getTime() < endDate.getTime()){
     let item = {
       str: `${addLeadingZeroIfNeeded(startDate.getHours())}:${addLeadingZeroIfNeeded(startDate.getMinutes())}`,
       h: startDate.getHours(),
       m: startDate.getMinutes()
     }
-    console.log(item)
+    rezult.push(item)
     startDate.setMinutes(startDate.getMinutes() + 30);
   }
+
+  return rezult
 
 }
 

@@ -11,11 +11,9 @@ function App() {
   const endDate = new Date()
 
   const funcStartDate = (date: Date) => {
-    console.log(date);
   };
 
   const funcEndDate = (date: Date) => {
-    console.log(date);
   };
 
   const MIN_DATE = new Date(2000, 1, 1);

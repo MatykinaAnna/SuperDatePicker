@@ -1,3 +1,8 @@
+.wrapper{
+  display: flex;
+  height: 500px;
+}
+
 .DatePicker {
   position: relative;
   display: inline-block;
@@ -22,6 +27,18 @@
   position: absolute;
   top: 100%;
   left: 0;
+}
+
+.CalendarPanelTime{
+  height: 99%;
+  overflow-y: auto;
+  width: 100px;
+  border: 1px solid lightgray;
+
+  .itemTime{
+    cursor: pointer;
+    padding: 5px;
+  }
 }
 
 .CalendarPanel__header {
