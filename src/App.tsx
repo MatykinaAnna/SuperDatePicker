@@ -28,13 +28,6 @@ function App() {
           changeStart: funcStartDate,
           changeEnd: funcEndDate,
         }}/>
-
-      {/* <DatePicker
-        value={date}
-        onChange={setDate}
-        min={MIN_DATE}
-        max={MAX_DATE}
-      /> */}
     </div>
   );
 }

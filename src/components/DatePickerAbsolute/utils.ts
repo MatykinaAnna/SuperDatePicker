@@ -14,6 +14,32 @@ export const months = [
   'Dec',
 ];
 
+export const valueTime = [
+  {
+      name: 'minutes',
+      numSec: 60
+  },
+  {
+      name: 'hours',
+      numSec: 60*60
+  },
+  {
+      name: 'days',
+      numSec: 60*60*24
+  },
+  {
+      name: 'weeks',
+      numSec: 60*60*24*7
+  },
+  {
+    name: 'mounths',
+    numSec: 60*60*24*7*30
+  },
+  {
+    name: 'mounths',
+    numSec: 60*60*24*7*30*365
+  }
+]
 const VISIBLE_CELLS_AMOUNT = 7 * 6;
 const sundayWeekToMondayWeekDayMap: Record<number, number> = {
   0: 6,

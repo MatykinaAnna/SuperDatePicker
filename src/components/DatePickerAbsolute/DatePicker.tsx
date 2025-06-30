@@ -22,6 +22,7 @@ import {
 } from './utils';
 import { useLatest } from '../../hooks';
 import styles from './DatePicker.module.scss'
+import DatePickerRelative from '../DatePickerRelative/DatePickerRelative';
 
 export interface DatePickerProps {
   value: Date;
@@ -30,8 +31,13 @@ export interface DatePickerProps {
   max?: Date;
 }
 
+function toApplay(rezult: any){
+  console.log(rezult)
+}
+
 export function DatePickerAbsolute({ value, onChange, min, max }: DatePickerProps) {
   const [showPopup, setShowPopup] = useState(false);
+  const [typePopup, setTypePopup] = useState(0)
   const [inputValue, setInputValue] = useState('');
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -135,7 +141,17 @@ export function DatePickerAbsolute({ value, onChange, min, max }: DatePickerProp
         onClick={onInputClick}
         onKeyDown={onKeyDown} />
 
-      {showPopup && (
+      {showPopup &&
+      
+        <div>
+          <button onClick={()=>{setTypePopup(0)}}>absolute</button>
+          <button onClick={()=>{setTypePopup(1)}}>relative</button>
+          <button onClick={()=>{setTypePopup(2)}}>now</button>  
+        </div>  
+      
+      }
+
+      {showPopup && (typePopup == 0) && (
         <div className="DatePicker__popup" data-testid="date-picker-popup">
           <DatePickerPopupContent
             selectedValue={value}
@@ -143,6 +159,12 @@ export function DatePickerAbsolute({ value, onChange, min, max }: DatePickerProp
             min={min}
             max={max}
             inputValueDate={inputValueDate} />
+        </div>
+      )}
+
+      {showPopup && (typePopup == 1) && (
+        <div className="DatePicker__popup" data-testid="date-picker-popup">
+          <DatePickerRelative selectedValue={value} onChange={handleChange} />
         </div>
       )}
     </div>
